@@ -29,6 +29,9 @@ public class Config {
     // orders related
     public static final String ORDER_URL = "/orders";
 
+    // heroku related
+    public static final String HELLO_URL = "/hello";
+
     private String apiBasePath;
 
 

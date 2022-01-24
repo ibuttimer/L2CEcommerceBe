@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import static com.ibuttimer.springecom.config.Config.*;
 
 
-// TODO: register request mapping https://stackoverflow.com/a/61710036
-
 @RestController
-@RequestMapping("/api" + CHECKOUT_URL)
+@RequestMapping("${spring.data.rest.base-path}" + CHECKOUT_URL)
 public class CheckoutController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass().getSimpleName());

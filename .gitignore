@@ -3,6 +3,9 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+/.mvn/
+/mvnw
+/mvnw.cmd
 
 ### STS ###
 .apt_generated
@@ -36,4 +39,3 @@ build/
 
 ### keystores ###
 *.p12
-/.mvn/

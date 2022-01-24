@@ -8,7 +8,7 @@ It is a full stack E-commerce application with:
 * product catalog
 * shopping cart
 * checkout
-* Stripe card payments
+* card payments
 * JWT, OAuth2, OpenID Connect and SSL/TLS
 
 
@@ -18,7 +18,7 @@ The companion frontend is available at [L2CeCommerceFe](https://github.com/ibutt
 The application consists of:
 * [Spring Boot](https://spring.io/projects/spring-boot) application with
   * [Spring Data JPA](https://spring.io/projects/spring-data-jpa) providing REST APIs
-  * [Stripe Credit Card Payments](https://stripe.com/) for card payment processing
+  * [Stripe](https://stripe.com/) for card payment processing
   * JWT, oauth2, OpenID Connect provided by [okta](https://www.okta.com/)
 * Database supported:
   * [MySQL](https://www.mysql.com/)
@@ -48,6 +48,14 @@ Run the following scripts in the listed order in the MySQL Workbench:
 
   Create the database schema and add sample data.
 
+##### heroku-postgresql
+
+If utilising a [Heroku Postgres](https://devcenter.heroku.com/articles/heroku-postgresql) datastore, the script may be run using the [heroku pg:psql command](https://devcenter.heroku.com/articles/heroku-cli-commands#heroku-pg-psql-database) of the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
+
+```shell
+$ heroku pg:psql <database> --app <application> -f <path to sql file>
+```
+
 
 ### Backend
 
@@ -76,126 +84,68 @@ Set the following environmental variables:
 
 #### Server configuration
 
-- PORT
-
-  Server web port.
-
-
-- LOG_LEVEL
-
-  Logging level; one of ``ERROR``, ``WARN``, ``INFO``, ``DEBUG``, or ``TRACE``.
-
-
-- SHOW_SQL
-
-  Set to ``true`` to view sql output in console, otherwise ``false``.
-
-
-- SSL_ENABLED
-
-  Set to ``true`` to enable HTTPS support, otherwise ``false``.
-
-  **Note:** If HTTPS support is enabled, the [SSL configuration](#ssl-configuration) environmental variables also need to be configured.
+| Variable    | Description                                                                                                                                                                                                                  | Comment |
+|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| PORT        | Server web port                                                                                                                                                                                                              |         |
+| LOG_LEVEL   | Logging level; one of ``ERROR``, ``WARN``, ``INFO``, ``DEBUG``, or ``TRACE``. Default ``INFO``.                                                                                                                              |         |
+| SHOW_SQL    | Set to ``true`` to view sql output in console, otherwise ``false``. Default ``false``.                                                                                                                                       |         |
+| SSL_ENABLED | Set to ``true`` to enable HTTPS support, otherwise ``false``. Default ``true``. <br/> **Note:** If HTTPS support is enabled, the [SSL configuration](#ssl-configuration) environmental variables also need to be configured. |         |
 
 
 #### Database configuration
 
-- DB_CFG
-
-  Set to the database configuration required; one of``postgres`` or ``mysql``. 
-
-
-- DB_HOST
-
-  Set to database server address.
-
-
-- DB_PORT
-
-  Set to database server port.
+| Variable    | Description                                                                  | Comment |
+|-------------|------------------------------------------------------------------------------|---------|
+| DB_CFG      | Set to the database configuration required; one of``postgres`` or ``mysql``. |         |
+| DB_HOST     | Set to database server address.                                              | [1]     |
+| DB_PORT     | Set to database server port.                                                 | [1]     |
+| DB_DATABASE | Set to database name.                                                        | [1]     |
+| DB_SCHEMA   | Set to database schema.                                                      |         |
+| DB_USERNAME | Set to database username.                                                    | [2]     |
+| DB_PASSWORD | Set to database password.                                                    | [2]     |
 
 
-- DB_DATABASE
+**[1]** In a Heroku deployment using an attached Heroku Postgres database, the official Heroku buildpacks for Java will 
+automatically create the SPRING_DATASOURCE_URL environment variable, so this variable will be ignored.
 
-  Set to database name.
-
-
-- DB_USERNAME
-
-  Set to database username.
-
-
-- DB_PASSWORD
-
-  Set to database password.
-
-
-- DB_SCHEMA
-
-  Set to database schema.
+**[2]** In a Heroku deployment using an attached Heroku Postgres database, the official Heroku buildpacks for Java will 
+automatically create SPRING_DATASOURCE_USERNAME, and SPRING_DATASOURCE_PASSWORD environment variables.
+This variable should be set to the appropriate SPRING_DATASOURCE_* variable.
 
 
 #### SSL configuration
 
 **Note:** These setting are only required if HTTPS support is enabled, see [Server configuration](#server-configuration).
 
-- KEY_ALIAS
+| Variable          | Description                                                                                                                                                                                                                                                             | Comment |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| KEY_ALIAS         | Alias of the key generated in [Generate key and self-signed certificate](#generate-key-and-self-signed-certificate).                                                                                                                                                    |         |
+| KEYSTORE_PASSWORD | Password for keystore created in [Generate key and self-signed certificate](#generate-key-and-self-signed-certificate).                                                                                                                                                 |         |
+| KEYSTORE          | Location in the classpath of the PKCS12 keystore created in [Generate key and self-signed certificate](#generate-key-and-self-signed-certificate).<br/> E.g. for the keystore *backend/spring-ecommerce/src/main/resources/keystore.p12*, set ``KEYSTORE=keystore.p12`` |         |
 
-  Alias of the key generated in [Generate key and self-signed certificate](#generate-key-and-self-signed-certificate)     
-
-* KEYSTORE_PASSWORD
-  
-  Password for keystore created in [Generate key and self-signed certificate](#generate-key-and-self-signed-certificate)
-
-
-* KEYSTORE
-
-  Location in the classpath of the PKCS12 keystore created in [Generate key and self-signed certificate](#generate-key-and-self-signed-certificate)
-
-  E.g. for the keystore *backend/spring-ecommerce/src/main/resources/keystore.p12*, set
-
-  ``
-  KEYSTORE=keystore.p12
-  ``
 
 #### Okta configuration
 
-* OKTA_CLIENT_ID
-
-  *Client ID* from the *Client Credentials* of the [Backend okta application](#backend-okta-application) in the okta dashboard.
-
-
-* OKTA_CLIENT_SECRET
-
-  *Client secret* from the *Client Credentials* of the [Backend okta application](#backend-okta-application) in the okta dashboard.
-
-
-* OKTA_ISSUER
-
-  Set to the [default authorization server](https://developer.okta.com/docs/reference/api/oidc/#_2-okta-as-the-identity-platform-for-your-app-or-api) for the okta developer account.
-  Using *Okta domain* from the *General Settings* of the [Backend okta application](#backend-okta-application) in the okta dashboard, set to
-
-  ``
-  https://${yourOktaDomain}/oauth2/default
-  ``
+| Variable           | Description                                                                                                                                                                                                                                                                                                                                                                       | Comment |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| OKTA_CLIENT_ID     | *Client ID* from the *Client Credentials* of the [Backend okta application](#backend-okta-application) in the okta dashboard.                                                                                                                                                                                                                                                     |         |
+| OKTA_CLIENT_SECRET | *Client secret* from the *Client Credentials* of the [Backend okta application](#backend-okta-application) in the okta dashboard.                                                                                                                                                                                                                                                 |         |
+| OKTA_ISSUER        | Set to the [default authorization server](https://developer.okta.com/docs/reference/api/oidc/#_2-okta-as-the-identity-platform-for-your-app-or-api) for the okta developer account.<br/> Using *Okta domain* from the *General Settings* of the [Backend okta application](#backend-okta-application) in the okta dashboard, set to ``https://${yourOktaDomain}/oauth2/default``. |         |
 
 
 #### CORS configuration
 
-* ALLOWED_ORIGINS
-
-  A ``;`` separated list of allows origins for client requests. 
-
-  E.g. ``https://localhost:4200`` will allow connections from a client running on local host, port 4200.
+| Variable        | Description                                                                                                                                                                | Comment |
+|-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| ALLOWED_ORIGINS | A ``;`` separated list of allows origins for client requests.<br/> E.g. ``https://localhost:4200`` will allow connections from a client running on local host, port 4200.  |         |
 
 
 #### Stripe configuration
 
-* STRIPE_KEY_SECRET
+| Variable          | Description                                                                                                                                                                                   | Comment |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| STRIPE_KEY_SECRET | *Secret key* from the *API keys* in the Stripe developer dashboard.<br/> E.g. to use the *Test Mode Standard keys* goto https://dashboard.stripe.com/test/apikeys and copy the *Secret key*.  |         |
 
-  *Secret key* from the *API keys* in the Stripe developer dashboard.
-
-  E.g. to use the *Test Mode Standard keys* goto https://dashboard.stripe.com/test/apikeys and copy the *Secret key* 
 
 ## Operations
 
