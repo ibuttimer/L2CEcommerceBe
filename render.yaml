@@ -30,6 +30,8 @@ services:
         sync: false
       - key: OKTA_CLIENT_ID # Imported from Heroku app
         sync: false
+      - key: OKTA_CLIENT_SECRET
+        sync: false
       - key: OKTA_ISSUER # Imported from Heroku app
         sync: false
       - key: SSL_ENABLED # Imported from Heroku app
