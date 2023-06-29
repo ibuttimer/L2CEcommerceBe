@@ -22,6 +22,6 @@ public class OpenApiConfig {
                                      "https://www.udemy.com/course/full-stack-angular-spring-boot-tutorial/")
                         .version(appVersion)
                         .contact(new Contact().name("Ian Buttimer"))
-                        .license(new License().name("Apache 2.0").url("http://springdoc.org")));
+                        .license(new License().name("Apache 2.0").url("https://springdoc.org")));
     }
 }

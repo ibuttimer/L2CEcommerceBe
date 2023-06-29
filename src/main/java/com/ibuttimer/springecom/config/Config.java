@@ -29,6 +29,11 @@ public class Config {
     // orders related
     public static final String ORDER_URL = "/orders";
 
+    /** List of <types> under api route root */
+    public static final String[] API_TYPES = new String[] {
+            ORDER_URL
+    };
+
     // heroku related
     public static final String HELLO_URL = "/hello";
 

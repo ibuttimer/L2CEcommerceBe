@@ -65,6 +65,10 @@ Clone or download this repository.
 
 If enabling HTTPS support, follow the procedure outlined at https://github.com/darbyluv2code/fullstack-angular-and-springboot/blob/master/bonus-content/secure-https-communication/keytool-steps.md to generate key and self-signed certificate.
 
+````shell
+keytool -genkeypair -alias luv2code -keystore src/main/resources/luv2code-keystore.p12 -keypass secret -storeType PKCS12 -storepass secret -keyalg RSA -keysize 2048 -validity 365 -dname "C=IE, ST=Dublin, L=Dublin, O=luv2code, OU=Training Backend, CN=localhost" -ext "SAN=dns:localhost"
+````
+
 #### Backend okta application
 
 Register for an okta developer account if necessary and create an okta application with the following parameters:
