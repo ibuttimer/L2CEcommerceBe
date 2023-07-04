@@ -48,12 +48,20 @@ Run the following scripts in the listed order in the MySQL Workbench:
 
   Create the database schema and add sample data.
 
+##### psql
+
+Use the PostgreSQL `psql` tool to run the script 
+
+```shell
+$ psql -h <db_host> -d <db_database> -U <db_username> -f <path to sql file>
+```
+
 ##### heroku-postgresql
 
 If utilising a [Heroku Postgres](https://devcenter.heroku.com/articles/heroku-postgresql) datastore, the script may be run using the [heroku pg:psql command](https://devcenter.heroku.com/articles/heroku-cli-commands#heroku-pg-psql-database) of the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
 
 ```shell
-$ heroku pg:psql <database> --app <application> -f <path to sql file>
+$ heroku pg:psql <db_database> --app <application> -f <path to sql file>
 ```
 
 
@@ -108,6 +116,8 @@ Set the following environmental variables:
 | DB_USERNAME | Set to database username.                                                    | [2]     |
 | DB_PASSWORD | Set to database password.                                                    | [2]     |
 
+If utilising an external Database As A Service (DBaaS), the variable values may be extracted from the database URL;
+e.g. `postgres://<db_username>:<db_password>@<db_host>:<db_port>/<db_database>`
 
 **[1]** In a Heroku deployment using an attached Heroku Postgres database, the official Heroku buildpacks for Java will 
 automatically create the SPRING_DATASOURCE_URL environment variable, so this variable will be ignored.

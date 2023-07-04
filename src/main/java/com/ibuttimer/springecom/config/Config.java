@@ -66,7 +66,7 @@ public class Config {
      * Note: Spring Data REST base URI is *NOT* prepended to the url.
      * @param url   url template
      * @param map   map of placeholder/value pairs for url & query arguments
-     * @return
+     * @return  url
      */
     public static String getUrl(String url, Map<String, Object> map) {
         if (map == null) {
@@ -105,7 +105,7 @@ public class Config {
      * Note: Spring Data REST base URI is prepended to the url.
      * @param url   url template
      * @param map   map of placeholder/value pairs for url & query arguments
-     * @return
+     * @return  url
      */
     public String getBasedUrl(String url, Map<String, Object> map) {
         String basedUrl;
