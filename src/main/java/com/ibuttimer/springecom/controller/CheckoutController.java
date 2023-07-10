@@ -23,8 +23,11 @@ public class CheckoutController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass().getSimpleName());
 
-    @Autowired
-    private CheckoutService checkoutService;
+    private final CheckoutService checkoutService;
+
+    public CheckoutController(CheckoutService checkoutService) {
+        this.checkoutService = checkoutService;
+    }
 
     @PostMapping(PURCHASE_URL)
     public PurchaseResponse placeOrder(@RequestBody Purchase purchase) {

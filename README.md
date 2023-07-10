@@ -48,12 +48,20 @@ Run the following scripts in the listed order in the MySQL Workbench:
 
   Create the database schema and add sample data.
 
+##### psql
+
+Use the PostgreSQL `psql` tool to run the script 
+
+```shell
+$ psql -h <db_host> -d <db_database> -U <db_username> -f <path to sql file>
+```
+
 ##### heroku-postgresql
 
 If utilising a [Heroku Postgres](https://devcenter.heroku.com/articles/heroku-postgresql) datastore, the script may be run using the [heroku pg:psql command](https://devcenter.heroku.com/articles/heroku-cli-commands#heroku-pg-psql-database) of the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
 
 ```shell
-$ heroku pg:psql <database> --app <application> -f <path to sql file>
+$ heroku pg:psql <db_database> --app <application> -f <path to sql file>
 ```
 
 
@@ -64,6 +72,10 @@ Clone or download this repository.
 #### Generate key and self-signed certificate
 
 If enabling HTTPS support, follow the procedure outlined at https://github.com/darbyluv2code/fullstack-angular-and-springboot/blob/master/bonus-content/secure-https-communication/keytool-steps.md to generate key and self-signed certificate.
+
+````shell
+keytool -genkeypair -alias luv2code -keystore src/main/resources/luv2code-keystore.p12 -keypass secret -storeType PKCS12 -storepass secret -keyalg RSA -keysize 2048 -validity 365 -dname "C=IE, ST=Dublin, L=Dublin, O=luv2code, OU=Training Backend, CN=localhost" -ext "SAN=dns:localhost"
+````
 
 #### Backend okta application
 
@@ -104,6 +116,8 @@ Set the following environmental variables:
 | DB_USERNAME | Set to database username.                                                    | [2]     |
 | DB_PASSWORD | Set to database password.                                                    | [2]     |
 
+If utilising an external Database As A Service (DBaaS), the variable values may be extracted from the database URL;
+e.g. `postgres://<db_username>:<db_password>@<db_host>:<db_port>/<db_database>`
 
 **[1]** In a Heroku deployment using an attached Heroku Postgres database, the official Heroku buildpacks for Java will 
 automatically create the SPRING_DATASOURCE_URL environment variable, so this variable will be ignored.
@@ -146,6 +160,12 @@ This variable should be set to the appropriate SPRING_DATASOURCE_* variable.
 |-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | STRIPE_KEY_SECRET | *Secret key* from the *API keys* in the Stripe developer dashboard.<br/> E.g. to use the *Test Mode Standard keys* goto https://dashboard.stripe.com/test/apikeys and copy the *Secret key*.  |         |
 
+
+#### Client configuration
+
+| Variable      | Description                                                                                              | Comment |
+|---------------|----------------------------------------------------------------------------------------------------------|---------|
+| SAMPLE_CLIENT | Url of a sample client instance to redirect to via root page, e.g. `https://l2cecommercefe.onrender.com` |         |
 
 ## Operations
 

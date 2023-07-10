@@ -6,16 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name="country")
