@@ -161,6 +161,12 @@ This variable should be set to the appropriate SPRING_DATASOURCE_* variable.
 | STRIPE_KEY_SECRET | *Secret key* from the *API keys* in the Stripe developer dashboard.<br/> E.g. to use the *Test Mode Standard keys* goto https://dashboard.stripe.com/test/apikeys and copy the *Secret key*.  |         |
 
 
+#### Client configuration
+
+| Variable      | Description                                                                                              | Comment |
+|---------------|----------------------------------------------------------------------------------------------------------|---------|
+| SAMPLE_CLIENT | Url of a sample client instance to redirect to via root page, e.g. `https://l2cecommercefe.onrender.com` |         |
+
 ## Operations
 
 Using the default settings, the application will be hosted at https://localhost:8443/api
